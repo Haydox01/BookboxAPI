@@ -84,7 +84,7 @@ namespace Bookbox.Data
                 { 
                      Id = Guid.Parse("211891b1-80d9-46ec-84cb-c0e89bcede5a"),
                      Title = "Things Fall Apart",
-                     AuthorId = Guid.Parse("a2bb4edf-0d1d-4ce9-bb8e-4eaf9ff55cda"),
+                     AuthorName = "Chinua Achebe",
                      CategoryId = Guid.Parse("b10f6364-aebc-49ed-8ce5-343aed2b783d"),
                      CategoryName = "Fiction",
                      Price = 1000,
@@ -94,7 +94,7 @@ namespace Bookbox.Data
                 {
                     Id = Guid.Parse("c63b1c62-5ece-4aa8-b4ff-97dcf2908d9b"),
                     Title = "Sapiens",
-                    AuthorId = Guid.Parse("i42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    AuthorName = "Yuval Noah",
                     CategoryId = Guid.Parse("1555e61f-b2b7-4519-a7f4-93757881d682"),
                     CategoryName = "Science",
                     Price = 1200,
@@ -102,20 +102,20 @@ namespace Bookbox.Data
                 },
                 new Book
                 {
-                    Id = Guid.Parse("i32fd143-0c1f-4e10-8fb2-b420ae179274"),
+                    Id = Guid.Parse("24da42a7-ef1f-4a90-bc18-ad1adbeedd76"),
                     Title = "A Brief History of Time",
-                    AuthorId = Guid.Parse("g42fd143-0c1f-4e10-8fb2-b420ae179282"),
-                    CategoryId = Guid.Parse("b42fd143-0c1f-4e10-8fb2-b420ae179283"),
+                    AuthorName = "Stephen Hawking",
+                    CategoryId = Guid.Parse("c42fd143-0c1f-4e10-8fb2-b420ae179282"),
                     CategoryName = "History",
                     Price = 1500,
                     ISBN = "978-3-16-148410-2"
                 },
                 new Book
                 {
-                    Id = Guid.Parse("j32fd143-0c1f-4e10-8fb2-b420ae179274"),
+                    Id = Guid.Parse("beba5dd7-504f-4edc-9e99-2ed8068dacf5"),
                     Title = "Clean Code",
-                    AuthorId = Guid.Parse("j42fd143-0c1f-4e10-8fb2-b420ae179282"),
-                    CategoryId = Guid.Parse("e42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    AuthorName = "Robert C Martin",
+                    CategoryId = Guid.Parse("74fa4e60-3b0f-42db-bf16-35083dd4d108"),
                     CategoryName = "Programming",
                     Price = 2000,
                     ISBN = "978-3-16-148410-3"
@@ -124,28 +124,28 @@ namespace Bookbox.Data
             modelBuilder.Entity<Customer>().HasData(
                 new Customer
                 {
-                    Id = Guid.Parse("a42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    Id = Guid.Parse("5dba7a38-a3bb-426c-8783-bd94e6f3ed91"),
                     FirstName = "John",
                     LastName = "Doe",
                     ShippingAddress = "123 Main St, Lagos"
                 },
                 new Customer
                 {
-                    Id = Guid.Parse("b42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    Id = Guid.Parse("db6d528f-24fb-4c71-b111-5c75f001028e"),
                     FirstName = "Jane",
                     LastName = "Smith",
                     ShippingAddress = "123 Main St, UK"
                 },
                 new Customer
                     {
-                    Id = Guid.Parse("c42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    Id = Guid.Parse("43d1b3c1-f27e-4b89-ad15-92de0f73507f"),
                     FirstName = "Tunde",
                     LastName = "Akinkunmi",
                     ShippingAddress = "123 Main St, Ibadan"
                 },
                 new Customer
                 {
-                    Id = Guid.Parse("d42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    Id = Guid.Parse("030dc7da-1017-4042-9d69-bd645339d425"),
                     FirstName = "Kim",
                     LastName = "Yun",
                     ShippingAddress = "123 Main St, North Korea"
@@ -154,38 +154,38 @@ namespace Bookbox.Data
             modelBuilder.Entity<Order>().HasData(
                 new Order
                 {
-                    Id = Guid.Parse("a42fd143-0c1f-4e10-8fb2-b420ae179282"),
-                    CustomerId = Guid.Parse("a42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    Id = Guid.Parse("200b0e05-980f-468c-835b-55f0481d03ae"),
+                    CustomerId = Guid.Parse("5dba7a38-a3bb-426c-8783-bd94e6f3ed91"),
                     CustomerName = "John Doe",
                     ShippingAddress = "123 Main St, Lagos",
-                    BookId = Guid.Parse("g32fd143-0c1f-4e10-8fb2-b420ae179274"),
+                    BookId = Guid.Parse("211891b1-80d9-46ec-84cb-c0e89bcede5a"),
                     TotalAmount = 1000
                 },
                 new Order
                 {
-                    Id = Guid.Parse("b42fd143-0c1f-4e10-8fb2-b420ae179282"),
-                    CustomerId = Guid.Parse("b42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    Id = Guid.Parse("6dd829f1-cc00-4581-b09b-e9ce5e14b656"),
+                    CustomerId = Guid.Parse("db6d528f-24fb-4c71-b111-5c75f001028e"),
                     CustomerName = "Jane Smith",
                     ShippingAddress = "123 Main St, UK",
-                    BookId = Guid.Parse("h32fd143-0c1f-4e10-8fb2-b420ae179274"),
+                    BookId = Guid.Parse("c63b1c62-5ece-4aa8-b4ff-97dcf2908d9b"),
                     TotalAmount = 1200
                 },
                 new Order
                 {
-                    Id = Guid.Parse("c42fd143-0c1f-4e10-8fb2-b420ae179282"),
-                    CustomerId = Guid.Parse("c42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    Id = Guid.Parse("4f6f9661-2468-4988-86a4-2bbdb8656a68"),
+                    CustomerId = Guid.Parse("43d1b3c1-f27e-4b89-ad15-92de0f73507f"),
                     CustomerName = "Tunde Akinkunmi",
                     ShippingAddress = "123 Main St, Ibadan",
-                    BookId = Guid.Parse("i32fd143-0c1f-4e10-8fb2-b420ae179274"),
+                    BookId = Guid.Parse("24da42a7-ef1f-4a90-bc18-ad1adbeedd76"),
                     TotalAmount = 1500
                 },
                 new Order
                 {
-                    Id = Guid.Parse("d42fd143-0c1f-4e10-8fb2-b420ae179282"),
-                    CustomerId = Guid.Parse("d42fd143-0c1f-4e10-8fb2-b420ae179282"),
+                    Id = Guid.Parse("64f7e1df-0267-4426-ae90-a48871ae967b"),
+                    CustomerId = Guid.Parse("030dc7da-1017-4042-9d69-bd645339d425"),
                     CustomerName = "Kim Yun",
                     ShippingAddress = "123 Main St, North Korea",
-                    BookId = Guid.Parse("j32fd143-0c1f-4e10-8fb2-b420ae179274"),
+                    BookId = Guid.Parse("beba5dd7-504f-4edc-9e99-2ed8068dacf5"),
                     TotalAmount = 2000
                 });
             
