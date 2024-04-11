@@ -84,6 +84,7 @@ namespace Bookbox.Data
                 { 
                      Id = Guid.Parse("211891b1-80d9-46ec-84cb-c0e89bcede5a"),
                      Title = "Things Fall Apart",
+                     AuthorId = Guid.Parse("a2bb4edf-0d1d-4ce9-bb8e-4eaf9ff55cda"),
                      AuthorName = "Chinua Achebe",
                      CategoryId = Guid.Parse("b10f6364-aebc-49ed-8ce5-343aed2b783d"),
                      CategoryName = "Fiction",
@@ -94,6 +95,7 @@ namespace Bookbox.Data
                 {
                     Id = Guid.Parse("c63b1c62-5ece-4aa8-b4ff-97dcf2908d9b"),
                     Title = "Sapiens",
+                    AuthorId = Guid.Parse("6a845b75-8595-4073-8160-8e52118de055"),
                     AuthorName = "Yuval Noah",
                     CategoryId = Guid.Parse("1555e61f-b2b7-4519-a7f4-93757881d682"),
                     CategoryName = "Science",
@@ -104,6 +106,7 @@ namespace Bookbox.Data
                 {
                     Id = Guid.Parse("24da42a7-ef1f-4a90-bc18-ad1adbeedd76"),
                     Title = "A Brief History of Time",
+                    AuthorId = Guid.Parse("96be4f0e-0880-40ad-a837-76e1cd73ab6e"),
                     AuthorName = "Stephen Hawking",
                     CategoryId = Guid.Parse("c42fd143-0c1f-4e10-8fb2-b420ae179282"),
                     CategoryName = "History",
@@ -114,6 +117,7 @@ namespace Bookbox.Data
                 {
                     Id = Guid.Parse("beba5dd7-504f-4edc-9e99-2ed8068dacf5"),
                     Title = "Clean Code",
+                    AuthorId = Guid.Parse("af2dbcf9-721a-4184-9267-7d1a8a277174"),
                     AuthorName = "Robert C Martin",
                     CategoryId = Guid.Parse("74fa4e60-3b0f-42db-bf16-35083dd4d108"),
                     CategoryName = "Programming",
