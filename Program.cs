@@ -1,6 +1,8 @@
 using Bookbox.Data;
+using Bookbox.MapperConfig;
 using Microsoft.EntityFrameworkCore;
 using System;
+ 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddDbContext<BookBoxDbContext>(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 var app = builder.Build();
 
