@@ -15,14 +15,26 @@ namespace Bookbox.Repositories
             this.context = context;
             this.mappings = mappings;
         }
-        public Task<Book> CreateBook(Book book)
+        public async Task<Book> CreateBook(Book book)
         {
-            throw new NotImplementedException();
+
+            await context.Books.AddAsync(book);
+            await context.SaveChangesAsync();
+            return book;
+
         }
 
-        public Task<Book> DeleteBook(Guid id)
+        public async Task<Book> DeleteBook(Guid id)
         {
-            throw new NotImplementedException();
+            var Book = await context.Books.FirstOrDefaultAsync(x => x.Id == id);
+            if (Book == null)
+            {
+                return null;
+            }
+            context.Books.Remove(Book);
+            await context.SaveChangesAsync();
+            return Book;
+
         }
 
         public async Task<List<Book>> GetAllBooks()
@@ -30,14 +42,49 @@ namespace Bookbox.Repositories
            return await context.Books.ToListAsync();
         }
 
-        public Task<Book> GetBookById(Guid id)
+        public async Task<Book> GetBookById(Guid id)
         {
-            throw new NotImplementedException();
+          return await context.Books.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Book> UpdateBook(Book book)
+        public async Task<List<Book>> GetBooksByTitle(string title)
         {
-            throw new NotImplementedException();
+             
+             // Use LINQ to filter books by title (case-insensitive)
+          var booksWithTitle = await context.Books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
+          .ToListAsync();
+
+           return booksWithTitle;
+
         }
+
+        public async Task<List<Book>> GetBooksByAuthorName(string authorName)
+        {
+            var booksByAuthor = await context.Books.Where(b => b.AuthorName.Contains(authorName, StringComparison.OrdinalIgnoreCase))
+            .ToListAsync();
+            return booksByAuthor;
+            
+        }
+
+        public async Task<Book> UpdateBook(Book book)
+        {
+          
+          var Book= await context.Books.FirstOrDefaultAsync(x => x.Id == book.Id);
+            if (Book == null)
+            {
+                return null;
+            }
+            Book.Title = book.Title;
+            Book.Price = book.Price;
+            Book.ISBN = book.ISBN;
+
+            await context.SaveChangesAsync();
+            return Book;
+
+
+        }
+
+       
     }
 }
+

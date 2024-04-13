@@ -9,5 +9,7 @@ namespace Bookbox.Repositories.Interface
         Task<Book> CreateBook(Book book);
         Task<Book> UpdateBook(Book book);
         Task<Book> DeleteBook(Guid id);
+        Task<List<Book>> GetBooksByAuthorName(string authorName);
+        Task<List<Book>> GetBooksByTitle(string title);
     }
 }

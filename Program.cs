@@ -1,5 +1,8 @@
+using AutoMapper;
 using Bookbox.Data;
 using Bookbox.MapperConfig;
+using Bookbox.Repositories;
+using Bookbox.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
  
@@ -17,7 +20,13 @@ builder.Services.AddDbContext<BookBoxDbContext>(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+
+
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
+builder.Services.AddSingleton<MappingProfiles>();
 
 var app = builder.Build();
 
