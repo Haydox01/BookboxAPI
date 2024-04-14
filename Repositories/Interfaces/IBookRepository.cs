@@ -6,8 +6,8 @@ namespace Bookbox.Repositories.Interface
     {
         Task<List<Book>> GetAllBooks();
         Task<Book> GetBookById(Guid id);
-        Task<Book> CreateBook(Book book);
-        Task<Book> UpdateBook(Book book);
+        Task<Book> AddBook(Book book);
+        Task<Book> UpdateBook(Guid id, Book book);
         Task<Book> DeleteBook(Guid id);
         Task<List<Book>> GetBooksByAuthorName(string authorName);
         Task<List<Book>> GetBooksByTitle(string title);

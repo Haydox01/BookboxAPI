@@ -1,4 +1,6 @@
-﻿namespace Bookbox.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bookbox.Models
 {
     public class Book
     {
@@ -12,6 +14,8 @@
         public string ? ISBN { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        [Timestamp]
+       
 
         //nav Properties
 
