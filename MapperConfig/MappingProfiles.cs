@@ -9,6 +9,8 @@ namespace Bookbox.MapperConfig
         public MappingProfiles()
         {
             CreateMap<Book, BookDto>().ReverseMap();
+            CreateMap<Book, UpdateBookDto>().ReverseMap();
+            CreateMap<AddBookDto, Book>().ReverseMap();
         }
     }
 }
