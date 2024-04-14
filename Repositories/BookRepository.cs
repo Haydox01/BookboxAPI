@@ -49,18 +49,28 @@ namespace Bookbox.Repositories
         {
             return await context.Books.FirstOrDefaultAsync(x => x.Id == id);
         }
-      
 
+
+
+        /*  public async Task<List<Book>> GetBooksByTitle(string title)
+          {
+
+              var booksWithTitle = await context.Books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
+              .ToListAsync();
+
+              return booksWithTitle;
+          }*/
         public async Task<List<Book>> GetBooksByTitle(string title)
         {
-
-            // Use LINQ to filter books by title (case-insensitive)
-            var booksWithTitle = await context.Books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
-            .ToListAsync();
+            // Assuming bookRepository.GetBooksByTitle(title) returns IQueryable<Book>
+            var booksWithTitle = await context.Books
+                .Where(book => book.Title.IndexOf(title, StringComparison.InvariantCultureIgnoreCase) >= 0)
+                .ToListAsync();
 
             return booksWithTitle;
-
         }
+
+
 
         public async Task<List<Book>> GetBooksByAuthorName(string authorName)
         {
@@ -75,22 +85,13 @@ namespace Bookbox.Repositories
             var Book = await context.Books.FirstOrDefaultAsync(x => x.Id == id);
             if (Book == null)
             {
-               /* return null;*/
                 throw new ArgumentException("Book not found", nameof(book));
             }
-           /* var existingAuthor = await context.Authors.FirstOrDefaultAsync(a => string.Equals(a.Name, book.AuthorName, StringComparison.OrdinalIgnoreCase));
-            var existingCategory = await context.Categories.FirstOrDefaultAsync(c => string.Equals(c.Name, book.CategoryName, StringComparison.OrdinalIgnoreCase));
-
-            if (existingAuthor == null || existingCategory == null)
-            {
-                throw new ArgumentException("Author or Category not found", nameof(book));
-            }*/
+         
 
             Book.Title = book.Title;
             Book.Price = book.Price;
             Book.ISBN = book.ISBN;
-           /* Book.CategoryName = book.CategoryName;
-            Book.AuthorName = book.AuthorName;*/
             await context.SaveChangesAsync();
             return Book;
 

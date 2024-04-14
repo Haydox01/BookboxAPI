@@ -30,18 +30,29 @@ namespace Bookbox.Controllers
 
         public async Task<IActionResult> CreateBookAsync([FromBody] AddBookDto addBookDto)
         {
-            var book = mapper.Map<Book>(addBookDto);
-            book = await bookRepository.AddBook(book);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); 
+            }
+            try
+            {
+                var book = mapper.Map<Book>(addBookDto);
+                book = await bookRepository.AddBook(book);
 
-            var bookDto= mapper.Map<BookDto>(book);
+                var bookDto = mapper.Map<BookDto>(book);
 
-            return CreatedAtAction(nameof(GetById), new { id = book.Id }, book);
+                return CreatedAtAction(nameof(GetById), new { id = book.Id }, book);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred. Please try again later.");
+
+            }
             
         }
 
       
-       
-            [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> GetAllBooks()
         {
             try
@@ -64,15 +75,12 @@ namespace Bookbox.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> UpdateBook([FromRoute] Guid id, [FromBody] UpdateBookDto updateBookDto)
         {
-            // Map DTO to Domain Model
             var book = mapper.Map<Book>(updateBookDto);
-            // check if book exist
             book = await bookRepository.UpdateBook(id, book);
             if (book == null)
             {
                 return NotFound();
             }
-            // save changes
                 await dbContext.SaveChangesAsync();
                 return Ok(mapper.Map<BookDto>(book));
            
@@ -82,13 +90,65 @@ namespace Bookbox.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var book = await bookRepository.GetBookById(id);
-            if (book == null)
+            try
             {
-                return NotFound();
+                var book = await bookRepository.GetBookById(id);
+                if (book == null)
+                {
+                    return NotFound();
+                }
+                return Ok(mapper.Map<BookDto>(book));
+            } catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred. Please try again later.");
             }
-            return Ok(mapper.Map<BookDto>(book));
+
         }
 
+        [HttpGet]
+        [Route("{title}")]
+
+        public async Task<IActionResult> GetByTitle([FromRoute] string title)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                return BadRequest("Title cannot be empty.");
+            }
+            try
+            {
+                var bookTitle = await bookRepository.GetBooksByTitle(title);
+                if (bookTitle == null)
+                {
+                    return NotFound();
+                }
+                return Ok(mapper.Map<BookDto>(bookTitle));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred. Please try again later.");
+            }
+
+
+        }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            try
+            {
+                var book = await bookRepository.DeleteBook(id);
+                if (book == null)
+                {
+                    return NotFound();
+                }
+                return Ok(mapper.Map<BookDto>(book));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred. Please try again later.");
+
+            }
+        }
     }
 }
