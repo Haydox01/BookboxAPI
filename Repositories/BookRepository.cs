@@ -74,11 +74,18 @@ namespace Bookbox.Repositories
 
         public async Task<List<Book>> GetBooksByAuthorName(string authorName)
         {
-            var booksByAuthor = await context.Books.Where(b => b.AuthorName.Contains(authorName, StringComparison.OrdinalIgnoreCase))
+            /*var booksByAuthor = await context.Books.Where(b => b.AuthorName.Contains(authorName, StringComparison.OrdinalIgnoreCase))
             .ToListAsync();
-            return booksByAuthor;
+            return booksByAuthor;*/
+            return await context.Books
+                   .Where(b => b.AuthorName.Contains(authorName, StringComparison.OrdinalIgnoreCase))
+                   .ToListAsync();
 
         }
+       
+
+           
+
 
         public async Task<Book> UpdateBook(Guid id, Book book)
         {
