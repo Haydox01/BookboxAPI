@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Bookbox.Controllers
 {
@@ -53,8 +54,47 @@ namespace Bookbox.Controllers
 
       
         [HttpGet]
-        public async Task<IActionResult> GetAllBooks()
+        public async Task<IActionResult> GetAllBooks([FromQuery] string? title, [FromQuery] string? author)
         {
+            if(string.IsNullOrEmpty(title)  == false)
+            {
+                try
+                {
+                    var bookTitle = await bookRepository.GetBooksByTitle(title);
+                 /*   if (bookTitle == null || bookTitle.Count == 0)
+                    {
+                        return NotFound();
+                    }*/
+                    return Ok(mapper.Map<List<BookDto>>(bookTitle));
+                }
+               
+                catch (Exception ex)
+                {
+                    return StatusCode(500, "An error occurred. Please try again later.(TITLE)");
+                }
+
+            }
+
+            if (string.IsNullOrEmpty(author) == false)
+            {
+                try
+                {
+                    var books = await bookRepository.GetBooksByAuthorName(author);
+                 /*   if (books == null || books.Count == 0)
+                    {
+                        return NotFound();
+                    }*/
+
+                    var bookDtos = mapper.Map<List<BookDto>>(books);
+                    return Ok(bookDtos);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, "An error occurred. Please try again later.");
+                }
+
+            }
+
             try
             {
 
@@ -112,78 +152,6 @@ namespace Bookbox.Controllers
                 return StatusCode(500, "An error occurred. Please try again later.");
             }
 
-        }
-
-        [HttpGet]
-        [Route("{title}")]
-
-        public async Task<IActionResult> GetByTitle([FromRoute] string title)
-        {
-            if (string.IsNullOrEmpty(title))
-            {
-                return BadRequest("Title cannot be empty.");
-            }
-            try
-            {
-                var bookTitle = await bookRepository.GetBooksByTitle(title);
-                if (bookTitle == null)
-                {
-                    return NotFound();
-                }
-                return Ok(mapper.Map<BookDto>(bookTitle));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred. Please try again later.");
-            }
-        }
-
-        /* [HttpGet]
-         [Route("{authorName}")]
-         public async Task<IActionResult> GetByAuthor([FromRoute] string authorName)
-         {
-             if (string.IsNullOrEmpty(authorName))
-             {
-                 return BadRequest("Author name cannot be empty.");
-             }
-             try
-             {
-                 var author = await bookRepository.GetBooksByAuthorName(authorName);
-                 if (author == null)
-                 {
-                     return NotFound();
-                 }
-                 return Ok(mapper.Map<BookDto>(author));
-             }
-             catch (Exception ex)
-             {
-                 return StatusCode(500, "An error occurred. Please try again later.");
-             }
-         }*/
-
-        [HttpGet("author/{authorName}")]
-        public async Task<IActionResult> GetByAuthor(string authorName)
-        {
-            if (string.IsNullOrEmpty(authorName))
-            {
-                return BadRequest("Author name cannot be empty.");
-            }
-
-            try
-            {
-                var books = await bookRepository.GetBooksByAuthorName(authorName);
-                if (books == null || books.Count == 0)
-                {
-                    return NotFound();
-                }
-
-                var bookDtos = mapper.Map<List<BookDto>>(books);
-                return Ok(bookDtos);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred. Please try again later.");
-            }
         }
 
             [HttpDelete]

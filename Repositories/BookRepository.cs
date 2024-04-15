@@ -50,41 +50,27 @@ namespace Bookbox.Repositories
             return await context.Books.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<List<Book>> GetBooksByAuthorName(string authorName)
+        {
+            return await context.Books.Where(b => b.AuthorName.ToLower() == authorName.ToLower())
+                        .ToListAsync();
+        }
 
-
-        /*  public async Task<List<Book>> GetBooksByTitle(string title)
-          {
-
-              var booksWithTitle = await context.Books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
-              .ToListAsync();
-
-              return booksWithTitle;
-          }*/
         public async Task<List<Book>> GetBooksByTitle(string title)
         {
-            // Assuming bookRepository.GetBooksByTitle(title) returns IQueryable<Book>
-            var booksWithTitle = await context.Books
-                .Where(book => book.Title.IndexOf(title, StringComparison.InvariantCultureIgnoreCase) >= 0)
-                .ToListAsync();
+
+            var booksWithTitle = await context.Books.Where(b => b.Title.ToLower() == title.ToLower())
+            .ToListAsync();
 
             return booksWithTitle;
         }
-
-
-
-        public async Task<List<Book>> GetBooksByAuthorName(string authorName)
-        {
-            /*var booksByAuthor = await context.Books.Where(b => b.AuthorName.Contains(authorName, StringComparison.OrdinalIgnoreCase))
-            .ToListAsync();
-            return booksByAuthor;*/
-            return await context.Books
-                   .Where(b => b.AuthorName.Contains(authorName, StringComparison.OrdinalIgnoreCase))
-                   .ToListAsync();
-
-        }
        
 
-           
+
+
+       
+
+
 
 
         public async Task<Book> UpdateBook(Guid id, Book book)
