@@ -29,7 +29,7 @@ namespace Bookbox.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> CreateBookAsync([FromBody] AddBookDto addBookDto)
+        public async Task<IActionResult> Add([FromBody] AddBookDto addBookDto)
         {
             if (!ModelState.IsValid)
             {
@@ -54,7 +54,7 @@ namespace Bookbox.Controllers
 
       
         [HttpGet]
-        public async Task<IActionResult> GetAllBooks([FromQuery] string? title, [FromQuery] string? author)
+        public async Task<IActionResult> GetAll([FromQuery] string? title, [FromQuery] string? author)
         {
             if(string.IsNullOrEmpty(title)  == false)
             {
@@ -113,7 +113,7 @@ namespace Bookbox.Controllers
         }
         [HttpPut]
         [Route("{id:Guid}")]
-        public async Task<IActionResult> UpdateBook([FromRoute] Guid id, [FromBody] UpdateBookDto updateBookDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateBookDto updateBookDto)
         {
             try
             {
