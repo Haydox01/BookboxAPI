@@ -3,6 +3,7 @@ using Bookbox.Data;
 using Bookbox.MapperConfig;
 using Bookbox.Repositories;
 using Bookbox.Repositories.Interface;
+using Bookbox.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
  
@@ -23,6 +24,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IAuthorRepository , AuthorRepository>();
 
 
 builder.Services.AddAutoMapper(typeof(MappingProfiles));

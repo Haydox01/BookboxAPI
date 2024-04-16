@@ -5,7 +5,7 @@ namespace Bookbox.Repositories.Interfaces
     public interface IAuthorRepository
     {
         Task<List<Author>> GetAllAuthors();
-        Task<List<Author>> GetAuthorsByName();
+        Task<List<Author>> GetAuthorsByName(string name);
         Task<Author> GetAuthorsById(Guid id);
 
         Task<Author> UpdateAuthor(Guid id, Author author);

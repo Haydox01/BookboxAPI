@@ -24,9 +24,19 @@ namespace Bookbox.Repositories
             
         }
 
-        public Task<Author> DeleteAuthorById(Guid id)
+        public async Task<Author> DeleteAuthorById(Guid id)
         {
-            throw new NotImplementedException();
+            var Author= dbContext.Authors.FirstOrDefault(x => x.Id==id);
+            if (Author==null)
+            {
+                return null;
+            }
+            dbContext.Authors.Remove(Author);
+            await dbContext.SaveChangesAsync();
+            return Author;
+          
+
+
         }
 
         public async Task<List<Author>> GetAllAuthors()
@@ -37,17 +47,27 @@ namespace Bookbox.Repositories
 
         public Task<Author> GetAuthorsById(Guid id)
         {
-            throw new NotImplementedException();
+
+            return dbContext.Authors.FirstOrDefaultAsync(author => author.Id == id);
         }
 
-        public Task<List<Author>> GetAuthorsByName()
+        public async Task<List<Author>> GetAuthorsByName(string name)
         {
-            throw new NotImplementedException();
+         
+          return await dbContext.Authors.Where(x=> x.Name.ToLower() == name.ToLower()).ToListAsync();
         }
 
-        public Task<Author> UpdateAuthor(Guid id, Author author)
+        public async Task<Author> UpdateAuthor(Guid id, Author author)
         {
-            throw new NotImplementedException();
+           var Author = dbContext.Authors.FirstOrDefault(author => author.Id == id);
+            if (Author == null)
+            {
+                throw new ArgumentException("Book not found", nameof(author));
+            }
+            Author.Name = author.Name;
+            Author.Nationality = author.Nationality;
+            await dbContext.SaveChangesAsync();
+            return Author;
         }
     }
 }
