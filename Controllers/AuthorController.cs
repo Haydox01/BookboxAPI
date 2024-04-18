@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Bookbox.Data;
+using Bookbox.Models;
+using Bookbox.Models.Dto;
 using Bookbox.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +26,19 @@ namespace Bookbox.Controllers
 
 
         [HttpPost]
+
+        public async Task<IActionResult> Add([FromBody] AuthorDto authorDto)
+        {
+            if( !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var author = mapper.Map<Author>(authorDto);
+                await authorRepository.CreateAuthor(author);
+            }
+        }
 
     }
 }

@@ -153,7 +153,7 @@ namespace Bookbox.Controllers
             }
 
         }
-
+ 
             [HttpDelete]
         [Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)

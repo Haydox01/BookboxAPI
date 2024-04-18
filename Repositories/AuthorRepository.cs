@@ -53,7 +53,7 @@ namespace Bookbox.Repositories
 
         public async Task<List<Author>> GetAuthorsByName(string name)
         {
-         
+        
           return await dbContext.Authors.Where(x=> x.Name.ToLower() == name.ToLower()).ToListAsync();
         }
 
