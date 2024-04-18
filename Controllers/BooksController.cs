@@ -70,7 +70,7 @@ namespace Bookbox.Controllers
                
                 catch (Exception ex)
                 {
-                    return StatusCode(500, "An error occurred. Please try again later.(TITLE)");
+                    return StatusCode(500, "An error occurred. Please try again later.");
                 }
 
             }
@@ -154,7 +154,7 @@ namespace Bookbox.Controllers
 
         }
  
-            [HttpDelete]
+        [HttpDelete]
         [Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
