@@ -5,6 +5,7 @@ using Bookbox.Models.Dto;
 using Bookbox.Repositories;
 using Bookbox.Repositories.Interface;
 using Bookbox.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace Bookbox.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class AuthorController : ControllerBase
 
     {
@@ -29,29 +31,35 @@ namespace Bookbox.Controllers
 
 
         [HttpPost]
+      //  [Authorize(Roles ="Admin")]
 
         public async Task<IActionResult> Add([FromBody] AddUpdateAuthorDto addUpdateAuthorDto)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var author = mapper.Map<Author>(addUpdateAuthorDto);
+                    author = await authorRepository.CreateAuthor(author);
+                    var AuthorDTO = mapper.Map<AuthorDto>(author);
+                    return CreatedAtAction(nameof(GetById), new { id = author.Id }, author);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, "An error occurred. Please try again later.");
+
+                }
+            }
+            else
             {
                 return BadRequest(ModelState);
             }
-           // try
-           // {
-                var author = mapper.Map<Author>(addUpdateAuthorDto);
-                author= await authorRepository.CreateAuthor(author);
-                var AuthorDTO = mapper.Map<AddUpdateAuthorDto>(author);
-                return CreatedAtAction(nameof(GetById), new { id = author.Id }, author);
-          //  }
-           /* catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred. Please try again later.");
-
-            }*/
+           
          }
 
       
         [HttpGet]
+       // [Authorize(Roles ="Admin, Editor, Customer")]
         public async Task<IActionResult> Get([FromQuery] string? name)
         {
            
@@ -106,6 +114,7 @@ namespace Bookbox.Controllers
         }
         [HttpPut]
         [Route("{id:Guid}")]
+       // [Authorize(Roles ="Editor")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] AddUpdateAuthorDto addUpdateAuthorDto)
         {
             try

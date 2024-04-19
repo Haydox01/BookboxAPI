@@ -6,7 +6,7 @@ namespace Bookbox.Models
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public Double Price { get; set; }
+        public Double Price { get; set; } //Research if Double is the right DataType
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string AuthorName { get; set; }

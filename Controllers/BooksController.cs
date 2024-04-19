@@ -4,6 +4,7 @@ using Bookbox.Models;
 using Bookbox.Models.Dto;
 using Bookbox.Repositories;
 using Bookbox.Repositories.Interface;
+using Bookbox.Validator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,27 +29,25 @@ namespace Bookbox.Controllers
         }
 
         [HttpPost]
+        [ValidateModel]
 
         public async Task<IActionResult> Add([FromBody] AddBookDto addBookDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState); 
-            }
-            try
-            {
-                var book = mapper.Map<Book>(addBookDto);
-                book = await bookRepository.AddBook(book);
+           
+                try
+                {
+                    var book = mapper.Map<Book>(addBookDto);
+                    book = await bookRepository.AddBook(book);
 
-                var bookDto = mapper.Map<BookDto>(book);
+                    var bookDto = mapper.Map<BookDto>(book);
 
-                return CreatedAtAction(nameof(GetById), new { id = book.Id }, book);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred. Please try again later.");
+                    return CreatedAtAction(nameof(GetById), new { id = book.Id }, book);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, "An error occurred. Please try again later.");
 
-            }
+                }
             
         }
 
