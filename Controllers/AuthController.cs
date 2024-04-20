@@ -25,12 +25,13 @@ namespace Bookbox.Controllers
 
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
         {
+            //Username== Email
             var identityUser = new IdentityUser
             {
                 UserName = registerRequestDto.Username,
                 Email = registerRequestDto.Username
             };
-            var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);
+            var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);// Creating a new user
             if (identityResult.Succeeded)
             {
                 //Add roles to this user
@@ -55,6 +56,7 @@ namespace Bookbox.Controllers
 
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
         {
+            //Checking if the email and Password match with the registered on in the database
              var user= await userManager.FindByEmailAsync(loginRequestDto.Username);
             if (user != null)
             {

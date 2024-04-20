@@ -8,6 +8,8 @@ namespace Bookbox.MapperConfig
     {
         public MappingProfiles()
         {
+            //Mapping Models to Dto and in reverse 
+
             CreateMap<Book, BookDto>().ReverseMap();
             CreateMap<Book, UpdateBookDto>().ReverseMap();
             CreateMap<AddBookDto, Book>().ReverseMap();
