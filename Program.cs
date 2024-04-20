@@ -20,6 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
+// Injecting  Database and Connection String
 builder.Services.AddDbContext<BookBoxDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -30,6 +31,9 @@ builder.Services.AddDbContext<BookBoxAuthDbContext>(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
+
+
+// Adding Authentication and Authorozation to Swagger
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Book Box API", Version = "v1" });
@@ -61,17 +65,23 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
+//Registering Repositories
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IAuthorRepository , AuthorRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 
+// Registering Automapper
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddSingleton<MappingProfiles>();
 
+
+// Registering Identity User for Auth
 builder.Services.AddIdentityCore<IdentityUser>().AddRoles<IdentityRole>().AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>
     ("BookBox").AddEntityFrameworkStores<BookBoxAuthDbContext>().AddDefaultTokenProviders();
 
+
+// Registering Rules of Password for users/roles
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireDigit = false;
@@ -83,6 +93,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 
+// Registering the  Authentication as provided with Keys as provided in appsettings.json
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {

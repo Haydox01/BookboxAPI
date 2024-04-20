@@ -15,14 +15,14 @@ namespace Bookbox.Controllers
     [Route("api/[controller]")]
     [ApiController]
     
-    public class AuthorController : ControllerBase
+    public class AuthorsController : ControllerBase
 
     {
         private readonly BookBoxDbContext dbContext;
         private readonly IAuthorRepository authorRepository;
         private readonly IMapper mapper;
 
-        public AuthorController(BookBoxDbContext dbContext, IAuthorRepository authorRepository, IMapper mapper) 
+        public AuthorsController(BookBoxDbContext dbContext, IAuthorRepository authorRepository, IMapper mapper) 
         {
             this.dbContext = dbContext;
             this.authorRepository = authorRepository;

@@ -14,7 +14,9 @@ namespace Bookbox.Data
         {
 
             base.OnModelCreating(builder);
+            
 
+            //Hardcoding ID for each role
             var adminRoleId = "ea5c0bfd-689d-4c2d-8842-6a3464cf215d";
             var editorRoleId = "79605fe8-7a4a-4fae-a1e1-d29a0940e5f8";
             var customerSupportRoleId = "2fd054f6-4db7-4b2f-8c17-6e23e798b904";
@@ -67,7 +69,7 @@ namespace Bookbox.Data
                 }
             };
 
-            builder.Entity<IdentityRole>().HasData(roles);
+            builder.Entity<IdentityRole>().HasData(roles);// Seeding data inside DB
         }
     }
 }
