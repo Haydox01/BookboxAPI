@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Bookbox.Data;
+using Bookbox.Dto;
 using Bookbox.Models;
-using Bookbox.Models.Dto;
 using Bookbox.Repositories;
 using Bookbox.Repositories.Interface;
 using Bookbox.Repositories.Interfaces;

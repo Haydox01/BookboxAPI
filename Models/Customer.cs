@@ -1,8 +1,9 @@
-﻿namespace Bookbox.Models
+﻿using Bookbox.BaseClass;
+
+namespace Bookbox.Models
 {
-    public class Customer
+    public class Customer : BaseEntity
     {
-        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ShippingAddress { get; set; }

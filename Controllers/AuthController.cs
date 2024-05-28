@@ -1,4 +1,4 @@
-﻿using Bookbox.Models.Dto;
+﻿using Bookbox.Dto;
 using Bookbox.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Bookbox.BaseClass;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bookbox.Models
 {
-    public class Book
+    public class Book : BaseEntity
     {
-        public Guid Id { get; set; }
+        
         public string Title { get; set; }
         public Double Price { get; set; } //Research if Double is the right DataType
         public Guid CategoryId { get; set; }
@@ -12,9 +13,6 @@ namespace Bookbox.Models
         public string AuthorName { get; set; }
         public Guid AuthorId { get; set; }
         public string ? ISBN { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        [Timestamp]
        
 
         //nav Properties
