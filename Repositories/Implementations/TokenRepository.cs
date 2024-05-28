@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Bookbox.Repositories
+namespace Bookbox.Repositories.Implementations
 {
     public class TokenRepository : ITokenRepository
     {
@@ -30,7 +30,7 @@ namespace Bookbox.Repositories
 
             }
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));// Encoding the Key
-            var credentials= new SigningCredentials(key, SecurityAlgorithms.HmacSha256); //Keepeing the credential in a variable
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); //Keepeing the credential in a variable
 
             //Creating a JWT token
             var token = new JwtSecurityToken(

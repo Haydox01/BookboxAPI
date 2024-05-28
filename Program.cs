@@ -1,7 +1,7 @@
 using AutoMapper;
 using Bookbox.Data;
 using Bookbox.MapperConfig;
-using Bookbox.Repositories;
+using Bookbox.Repositories.Implementations;
 using Bookbox.Repositories.Interface;
 using Bookbox.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

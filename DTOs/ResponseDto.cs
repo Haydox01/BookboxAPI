@@ -1,4 +1,4 @@
-﻿namespace Bookbox.Models.Dto
+﻿namespace Bookbox.Dto
 {
     public class ResponseDto
     {
