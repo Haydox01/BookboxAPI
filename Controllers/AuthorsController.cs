@@ -33,7 +33,7 @@ namespace Bookbox.Controllers
         [HttpPost]
       //  [Authorize(Roles ="Admin")]
 
-        public async Task<IActionResult> Add([FromBody] AddUpdateAuthorDto addUpdateAuthorDto)
+        public async Task<IActionResult> Add([FromBody] UpdateAuthorDto addUpdateAuthorDto)
         {
             if (ModelState.IsValid)
             {
@@ -115,7 +115,7 @@ namespace Bookbox.Controllers
         [HttpPut]
         [Route("{id:Guid}")]
        // [Authorize(Roles ="Editor")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] AddUpdateAuthorDto addUpdateAuthorDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateAuthorDto addUpdateAuthorDto)
         {
             try
             {

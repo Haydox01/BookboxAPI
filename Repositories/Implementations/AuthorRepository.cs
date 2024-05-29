@@ -24,7 +24,7 @@ namespace Bookbox.Repositories.Implementations
             var existingAuthor = await dbSet.FirstOrDefaultAsync(x => x.Id == id);
             if (existingAuthor == null)
             {
-                throw new ArgumentException("Curriculum not found", nameof(author));
+                throw new ArgumentException("Author not found", nameof(author));
 
             }
             existingAuthor.Name = author.Name;
