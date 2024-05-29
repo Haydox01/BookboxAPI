@@ -4,8 +4,8 @@ namespace Bookbox.Repositories.Interfaces
 {
     public interface IUnitOfWork
     {
-        IBookRepository Book { get; }
-        IAuthorRepository Author { get; }
+        IBookRepository Books { get; }
+        IAuthorRepository Authors { get; }
         Task CompleteAsync();
 
     }

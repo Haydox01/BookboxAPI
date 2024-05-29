@@ -12,11 +12,11 @@ namespace Bookbox.Repositories.Implementations
         public UnitOfWork(BookBoxDbContext dbContext)
         {
             this.dbContext = dbContext;
-            Author = new AuthorRepository(dbContext);
-            Book = new BookRepository(dbContext);
+            Authors = new AuthorRepository(dbContext);
+            Books = new BookRepository(dbContext);
         }
-        public IBookRepository Book { get; private set; }
-        public IAuthorRepository Author { get; private set; }
+        public IBookRepository Books { get; private set; }
+        public IAuthorRepository Authors { get; private set; }
 
         public async Task CompleteAsync()
         {

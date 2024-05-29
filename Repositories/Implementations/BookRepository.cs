@@ -21,9 +21,9 @@ namespace Bookbox.Repositories.Implementations
         {
             return await dbSet.Where(b => b.AuthorName.ToLower() == name.ToLower()).ToListAsync();
         }
-        public async Task<IEnumerable<Book>> GetBooksByTitle(string name)
+        public async Task<IEnumerable<Book>> GetBooksByTitle(string title)
         {
-            return await dbSet.Where(b => b.Title.ToLower() == name.ToLower()).ToListAsync();
+            return await dbSet.Where(b => b.Title.ToLower() == title.ToLower()).ToListAsync();
         }
         public async Task<Book> UpdateBook(Guid id, Book book)
         {
