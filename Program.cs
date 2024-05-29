@@ -4,6 +4,8 @@ using Bookbox.MapperConfig;
 using Bookbox.Repositories.Implementations;
 using Bookbox.Repositories.Interface;
 using Bookbox.Repositories.Interfaces;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
+using Bookbox.Utilities;
+using System.ComponentModel.Design;
+using Bookbox.Service.Interfaces;
+using Bookbox.Service.Implementations;
+using Bookbox.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,15 +72,23 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-//Registering Repositories
+/*//Registering Repositories
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IAuthorRepository , AuthorRepository>();
-builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();*/
 
+// Registering Services 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 
 // Registering Automapper
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddSingleton<MappingProfiles>();
+
+// Registering Fluent Validation
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<AddAuthorValidation>();
 
 
 // Registering Identity User for Auth
@@ -120,6 +135,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+app.UseMiddleware<GlobalJsonRequestFormatRequirementMiddleware>();
 
 app.MapControllers();
 

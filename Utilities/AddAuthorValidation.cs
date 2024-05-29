@@ -1,4 +1,5 @@
 ﻿using Bookbox.DTOs;
+using FluentValidation;
 
 namespace Bookbox.Utilities
 {

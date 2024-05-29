@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Bookbox.Data;
 using Bookbox.Dto;
+using Bookbox.DTOs;
 using Bookbox.Models;
 using Bookbox.Repositories;
 using Bookbox.Repositories.Interface;
 using Bookbox.Repositories.Interfaces;
+using Bookbox.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,151 +16,64 @@ namespace Bookbox.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
-    public class AuthorsController : ControllerBase
-        //h
-    {
-        private readonly BookBoxDbContext dbContext;
-        private readonly IAuthorRepository authorRepository;
-        private readonly IMapper mapper;
 
-        public AuthorsController(BookBoxDbContext dbContext, IAuthorRepository authorRepository, IMapper mapper) 
+    public class AuthorsController : ControllerBase
+    
+    {
+        private readonly IAuthorService authorService;
+
+        public AuthorsController(IAuthorService authorService)
         {
-            this.dbContext = dbContext;
-            this.authorRepository = authorRepository;
-            this.mapper = mapper;
+            this.authorService = authorService;
         }
 
-
-        [HttpPost]
-      //  [Authorize(Roles ="Admin")]
-
-        public async Task<IActionResult> Add([FromBody] UpdateAuthorDto addUpdateAuthorDto)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var author = mapper.Map<Author>(addUpdateAuthorDto);
-                    author = await authorRepository.CreateAuthor(author);
-                    var AuthorDTO = mapper.Map<AuthorDto>(author);
-                    return CreatedAtAction(nameof(GetById), new { id = author.Id }, author);
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, "An error occurred. Please try again later.");
-
-                }
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-           
-         }
-
-      
         [HttpGet]
-       // [Authorize(Roles ="Admin, Editor, Customer")]
         public async Task<IActionResult> Get([FromQuery] string? name)
         {
-           
-
-            if (string.IsNullOrEmpty(name) == false)
-            {
-                try
-                {
-                    var authorName = authorRepository.GetAuthorsByName(name);
-                    return Ok(mapper.Map<List<AuthorDto>>(authorName));
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, "An error occurred. Please try again later.");
-                }
-            }
-            try
-            {
-                var authors = await authorRepository.GetAllAuthors();
-                if (authors.Count == 0)
-                {
-                    return NotFound("No Author Found");
-                }
-                return Ok(authors);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, "An error occurred. Please try again later.");
-
-            }
+            var authors = await authorService.GetAllAuthorAsync(name);
+            return Ok(authors);
+        
         }
 
-        [HttpGet]
-        [Route("{id:Guid}")]
-        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] AddAuthorDto addAuthorDto)
         {
-            try
-            {
-                var author = await authorRepository.GetAuthorsById(id);
-                if (author == null)
-                {
-                    return NotFound();
-                }
-                return Ok(mapper.Map<AuthorDto>(author));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred. Please try again later.");
-
-            }
-
+            var author = await authorService.AddAuthorAsync(addAuthorDto);
+            return CreatedAtAction(nameof(GetById), new { id = author.Id }, author);
+        
         }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var author = await authorService.GetAuthorByIdAsync(id);
+            if (author == null)
+            {
+                return NotFound();
+            }
+            return Ok(author);
+        }
+
         [HttpPut]
         [Route("{id:Guid}")]
-       // [Authorize(Roles ="Editor")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateAuthorDto addUpdateAuthorDto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateAuthorDto updateAuthorDto)
         {
-            try
-            {
-                var author = mapper.Map<Author>(addUpdateAuthorDto);
-                author = await authorRepository.UpdateAuthor(id, author);
-                if (author == null)
-                {
-                    return NotFound();
-                }
-                await dbContext.SaveChangesAsync();
-                return Ok(mapper.Map<AuthorDto>(author));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred. Please try again later.");
-
-            }
+            var author = await authorService.UpdateAuthorAsync(id, updateAuthorDto);
+            return Ok(author);
         }
+
         [HttpDelete]
         [Route("{id:Guid}")]
-
-        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            try
+            var author = await authorService.DeleteAuthorAsync(id);
+            if (author == null)
             {
-                var author = await authorRepository.DeleteAuthorById(id);
-                if(author == null)
-                {
-                    return NotFound();
-
-                }
-                return Ok(mapper.Map<AuthorDto>(author));
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred. Please try again later.");
-
-            }
+            return Ok(author);
         }
-
-
-
-
-
     }
 }
+        
+

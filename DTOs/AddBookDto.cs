@@ -5,8 +5,6 @@ namespace Bookbox.Dto
     public class AddBookDto
     {
         public string Title { get; set; }
-        [Required]
-        [Range(0, 1000000, ErrorMessage = "Book Price cannot exceed 1000000")]
         public double Price { get; set; }
         public string AuthorName { get; set; }
         public Guid AuthorId { get; set; }
