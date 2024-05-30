@@ -18,7 +18,7 @@ namespace Bookbox.Controllers
     [ApiController]
 
     public class AuthorsController : ControllerBase
-    
+
     {
         private readonly IAuthorService authorService;
 
@@ -32,7 +32,7 @@ namespace Bookbox.Controllers
         {
             var authors = await authorService.GetAllAuthorAsync(name);
             return Ok(authors);
-        
+
         }
 
         [HttpPost]
@@ -40,7 +40,7 @@ namespace Bookbox.Controllers
         {
             var author = await authorService.AddAuthorAsync(addAuthorDto);
             return CreatedAtAction(nameof(GetById), new { id = author.Id }, author);
-        
+
         }
 
         [HttpGet("{id:guid}")]
@@ -75,5 +75,5 @@ namespace Bookbox.Controllers
         }
     }
 }
-        
+
 
