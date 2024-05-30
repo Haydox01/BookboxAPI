@@ -35,9 +35,9 @@ namespace Bookbox.Controllers
 
         [HttpGet]
         [Route("authorName")]
-        public async Task<IActionResult> GetByAuthorName([FromQuery] string name)
+        public async Task<IActionResult> GetByAuthorName([FromQuery] string authorName)
         {
-            var book = await bookService.GetBookByAuthorNameAsync(name);
+            var book = await bookService.GetBookByAuthorNameAsync(authorName);
             if (book == null)
             {
                 return NotFound();
