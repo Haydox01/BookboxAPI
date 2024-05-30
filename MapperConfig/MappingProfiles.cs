@@ -12,6 +12,8 @@ namespace Bookbox.MapperConfig
             //Mapping Models to Dto and in reverse 
 
             CreateMap<Book, BookDto>().ReverseMap();
+            CreateMap<BookDto, Book>().ReverseMap();
+            CreateMap<AddBookDto, BookDto>().ReverseMap();
             CreateMap<Book, UpdateBookDto>().ReverseMap();
             CreateMap<AddBookDto, Book>().ReverseMap();
             CreateMap<Author, AuthorDto>().ReverseMap();
