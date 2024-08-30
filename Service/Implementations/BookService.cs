@@ -28,10 +28,10 @@ namespace Bookbox.Service.Implementations
             var books = await unitOfWork.Books.All();
             return mapper.Map<List<BookDto>>(books);
         }
-        public async Task<BookDto> GetBookByAuthorNameAsync(string authorName)
+        public async Task<List<BookDto>> GetBookByAuthorNameAsync(string authorName)
         {
             var books = await unitOfWork.Books.GetBooksByAuthorName(authorName);
-            return mapper.Map<BookDto>(books);
+            return mapper.Map<List<BookDto>>(books);
         }
         public async Task<BookDto> GetBookByIdAsync(Guid id)
         {

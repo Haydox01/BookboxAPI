@@ -15,23 +15,7 @@ namespace Bookbox.Controllers
             this.bookService = bookService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string? title)
-        {
-            var books = await bookService.GetAllBookAsync(title);
-            return Ok(books);
-        
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetByAuthorName([FromQuery] string? authorName)
-        {
-            var books = await bookService.GetBookByAuthorNameAsync(authorName);
-            return Ok(books);
-        
-        }
-
-        [HttpGet]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var book = await bookService.GetBookByIdAsync(id);
@@ -47,6 +31,28 @@ namespace Bookbox.Controllers
         {
             var book = await bookService.AddBookAsync(addBookDto);
             return CreatedAtAction(nameof(GetById), new { id = book.Id }, book);
+        }
+
+        [HttpGet]
+        [Route("authorName")]
+        public async Task<IActionResult> GetByAuthorName([FromQuery] string authorName)
+        {
+            var book = await bookService.GetBookByAuthorNameAsync(authorName);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return Ok(book);
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] string? title)
+        {
+            var books = await bookService.GetAllBookAsync(title);
+            return Ok(books);
+
         }
 
         [HttpPut]
