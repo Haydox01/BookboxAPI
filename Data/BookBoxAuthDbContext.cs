@@ -6,6 +6,7 @@ namespace Bookbox.Data
 {
     public class BookBoxAuthDbContext : IdentityDbContext
     {
+        // dev
         public BookBoxAuthDbContext(DbContextOptions<BookBoxAuthDbContext> options) : base(options)
         {
         }
