@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bookbox.Dto
+namespace Bookbox.DTOs.Request
 {
     public class AddBookDto
     {

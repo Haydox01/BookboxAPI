@@ -1,4 +1,4 @@
-﻿namespace Bookbox.Dto
+﻿namespace Bookbox.DTOs.Request
 {
     public class UpdateBookDto
     {

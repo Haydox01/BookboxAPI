@@ -1,16 +1,9 @@
 ﻿using AutoMapper;
-using Bookbox.Data;
-using Bookbox.Dto;
-using Bookbox.DTOs;
-using Bookbox.Models;
-using Bookbox.Repositories;
-using Bookbox.Repositories.Interface;
-using Bookbox.Repositories.Interfaces;
+using Bookbox.DTOs.Request;
+using Bookbox.DTOs.Response;
+using Bookbox.DTOs.Shared;
 using Bookbox.Service.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bookbox.Controllers
 {
@@ -21,17 +14,20 @@ namespace Bookbox.Controllers
 
     {
         private readonly IAuthorService authorService;
+        private readonly IMapper _mapper;
 
-        public AuthorsController(IAuthorService authorService)
+        public AuthorsController(IAuthorService authorService, IMapper mapper)
         {
             this.authorService = authorService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string? name)
         {
             var authors = await authorService.GetAllAuthorAsync(name);
-            return Ok(authors);
+            /*return Ok(authors);*/
+            return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<List<AuthorDto>>(authors)));
 
         }
 
@@ -49,9 +45,11 @@ namespace Bookbox.Controllers
             var author = await authorService.GetAuthorByIdAsync(id);
             if (author == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse.NotFoundException("Author not found"));
             }
-            return Ok(author);
+            /*return Ok(author);*/
+            return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<AuthorDto>(author)));
+
         }
 
         [HttpPut]
@@ -59,7 +57,12 @@ namespace Bookbox.Controllers
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateAuthorDto updateAuthorDto)
         {
             var author = await authorService.UpdateAuthorAsync(id, updateAuthorDto);
-            return Ok(author);
+            if (author == null)
+            {
+                return NotFound(ApiResponse.NotFoundException("Author not found"));
+            }
+            /*return Ok(author);*/
+            return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<AuthorDto>(author)));
         }
 
         [HttpDelete]
@@ -69,9 +72,10 @@ namespace Bookbox.Controllers
             var author = await authorService.DeleteAuthorAsync(id);
             if (author == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse.NotFoundException("Author not found"));
             }
-            return Ok(author);
+            /*return Ok(author);*/
+            return Ok(ApiResponse.SuccessMessage("Author deleted successfully!"));
         }
     }
 }

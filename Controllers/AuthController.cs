@@ -1,4 +1,5 @@
-﻿using Bookbox.Dto;
+﻿using Bookbox.DTOs.Request;
+using Bookbox.DTOs.Response;
 using Bookbox.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

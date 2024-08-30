@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Bookbox.Dto;
-using Bookbox.DTOs;
+using Bookbox.DTOs.Request;
+using Bookbox.DTOs.Response;
 using Bookbox.Models;
 
 namespace Bookbox.MapperConfig

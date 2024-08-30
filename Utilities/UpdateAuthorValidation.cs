@@ -1,5 +1,5 @@
-﻿using Bookbox.Dto;
-using Bookbox.DTOs;
+﻿using Bookbox.DTOs;
+using Bookbox.DTOs.Request;
 using FluentValidation;
 
 namespace Bookbox.Utilities
