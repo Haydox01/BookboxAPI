@@ -1,5 +1,5 @@
-﻿using Bookbox.Dto;
-using Bookbox.DTOs;
+﻿using Bookbox.DTOs.Request;
+using Bookbox.DTOs.Response;
 
 namespace Bookbox.Service.Interfaces
 {

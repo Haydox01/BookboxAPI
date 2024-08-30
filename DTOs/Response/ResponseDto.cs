@@ -1,4 +1,4 @@
-﻿namespace Bookbox.Dto
+﻿namespace Bookbox.DTOs.Response
 {
     public class ResponseDto
     {

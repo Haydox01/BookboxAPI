@@ -1,6 +1,6 @@
 ﻿using Bookbox.Models;
 
-namespace Bookbox.Dto
+namespace Bookbox.DTOs.Response
 {
     public class BookDto
     {

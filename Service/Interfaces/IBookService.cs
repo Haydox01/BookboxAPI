@@ -1,5 +1,6 @@
-﻿using Bookbox.Dto;
-using Bookbox.DTOs;
+﻿using Bookbox.DTOs;
+using Bookbox.DTOs.Request;
+using Bookbox.DTOs.Response;
 using System.Collections.Generic;
 
 namespace Bookbox.Service.Interfaces

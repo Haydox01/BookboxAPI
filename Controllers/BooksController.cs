@@ -1,4 +1,8 @@
-﻿using Bookbox.Dto;
+﻿using AutoMapper;
+using Bookbox.DTOs.Request;
+using Bookbox.DTOs.Response;
+using Bookbox.DTOs.Shared;
+using Bookbox.Models;
 using Bookbox.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +13,12 @@ namespace Bookbox.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBookService bookService;
+        private readonly IMapper _mapper;
 
-        public BooksController(IBookService bookService)
+        public BooksController(IBookService bookService, IMapper mapper)
         {
             this.bookService = bookService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id:guid}")]
@@ -21,9 +27,10 @@ namespace Bookbox.Controllers
             var book = await bookService.GetBookByIdAsync(id);
             if (book == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse.NotFoundException("Book not found"));
             }
-            return Ok(book);
+            /*return Ok(book);*/
+            return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<BookDto>(book)));
         }
 
         [HttpPost]
@@ -35,14 +42,15 @@ namespace Bookbox.Controllers
 
         [HttpGet]
         [Route("authorName")]
-        public async Task<IActionResult> GetByAuthorName([FromQuery] string authorName)
+        public async Task<IActionResult> GetBookByAuthorName([FromQuery] string authorName)
         {
             var book = await bookService.GetBookByAuthorNameAsync(authorName);
             if (book == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse.NotFoundException("Author not found"));
             }
-            return Ok(book);
+            /*return Ok(book);*/
+            return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<BookDto>(book)));
         }
 
 
@@ -51,7 +59,8 @@ namespace Bookbox.Controllers
         public async Task<IActionResult> Get([FromQuery] string? title)
         {
             var books = await bookService.GetAllBookAsync(title);
-            return Ok(books);
+            /*return Ok(books);*/
+            return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<List<BookDto>>(books)));
 
         }
 
@@ -59,7 +68,12 @@ namespace Bookbox.Controllers
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateBookDto updateBookDto)
         {
             var book = await bookService.UpdateBookAsync(id, updateBookDto);
-            return Ok(book);
+            if(book == null)
+            {
+                return NotFound(ApiResponse.NotFoundException("Book not found"));
+            }
+            /*return Ok(book);*/
+            return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<BookDto>(book)));
         }
 
         [HttpDelete]
@@ -68,9 +82,10 @@ namespace Bookbox.Controllers
             var book = await bookService.DeleteBookAsync(id);
             if (book == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse.NotFoundException("Book not found"));
             }
-            return Ok(book);
+            /*return Ok(book);*/
+            return Ok(ApiResponse.SuccessMessage("Book deleted successfully!"));
         }
     }
 }
