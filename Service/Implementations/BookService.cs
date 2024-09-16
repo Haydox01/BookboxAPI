@@ -10,10 +10,10 @@ namespace Bookbox.Service.Implementations
 
     public class BookService : IBookService
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork<Book> unitOfWork;
         private readonly IMapper mapper;
 
-        public BookService(IUnitOfWork unitOfWork, IMapper mapper)
+        public BookService(IUnitOfWork<Book> unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;

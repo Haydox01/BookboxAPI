@@ -4,6 +4,7 @@ using Bookbox.DTOs.Response;
 using Bookbox.DTOs.Shared;
 using Bookbox.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Bookbox.Controllers
 {
@@ -15,20 +16,21 @@ namespace Bookbox.Controllers
     {
         private readonly IAuthorService authorService;
         private readonly IMapper _mapper;
+        private readonly ILogger<AuthorsController> logger;
 
-        public AuthorsController(IAuthorService authorService, IMapper mapper)
+        public AuthorsController(IAuthorService authorService, IMapper mapper, ILogger<AuthorsController> logger)
         {
             this.authorService = authorService;
             _mapper = mapper;
+            this.logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string? name)
         {
             var authors = await authorService.GetAllAuthorAsync(name);
-            /*return Ok(authors);*/
+            
             return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<List<AuthorDto>>(authors)));
-
         }
 
         [HttpPost]

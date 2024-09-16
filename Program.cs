@@ -18,14 +18,26 @@ using System.ComponentModel.Design;
 using Bookbox.Service.Interfaces;
 using Bookbox.Service.Implementations;
 using Bookbox.Middlewares;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Inject Serilog for error Logging
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/BookBox_Log.txt", rollingInterval: RollingInterval.Day)
+    .MinimumLevel.Debug()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
 
 // Injecting  Database and Connection String
 builder.Services.AddDbContext<BookBoxDbContext>(options =>
@@ -71,16 +83,12 @@ builder.Services.AddSwaggerGen(options =>
     }); 
 });
 
-
-/*//Registering Repositories
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IAuthorRepository , AuthorRepository>();
-builder.Services.AddScoped<ITokenRepository, TokenRepository>();*/
-
 // Registering Services 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<ITokenRepository , TokenRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 // Registering Automapper
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
@@ -135,8 +143,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-app.UseMiddleware<GlobalJsonRequestFormatRequirementMiddleware>();
+/*app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+app.UseMiddleware<GlobalJsonRequestFormatRequirementMiddleware>();*/
 
 app.MapControllers();
 
