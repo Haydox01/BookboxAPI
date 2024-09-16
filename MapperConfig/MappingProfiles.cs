@@ -19,6 +19,8 @@ namespace Bookbox.MapperConfig
             CreateMap<Author, AuthorDto>().ReverseMap();
             CreateMap<Author, UpdateAuthorDto>().ReverseMap();
             CreateMap<Author, AddAuthorDto>().ReverseMap();
+            CreateMap<Category, CreateCategoryDto>().ReverseMap();
+            CreateMap<Category, CategoryDto>().ReverseMap();
         }
     }
 }

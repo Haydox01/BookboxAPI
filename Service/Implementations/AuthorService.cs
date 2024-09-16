@@ -9,10 +9,10 @@ namespace Bookbox.Service.Implementations
 {
     public class AuthorService : IAuthorService
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork<Author> unitOfWork;
         private readonly IMapper mapper;
 
-        public AuthorService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AuthorService(IUnitOfWork<Author> unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;

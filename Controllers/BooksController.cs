@@ -50,7 +50,7 @@ namespace Bookbox.Controllers
                 return NotFound(ApiResponse.NotFoundException("Author not found"));
             }
             /*return Ok(book);*/
-            return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<BookDto>(book)));
+            return Ok(ApiResponse.SuccessMessageWithData(_mapper.Map<List<BookDto>>(book)));
         }
 
 
