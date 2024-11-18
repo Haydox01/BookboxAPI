@@ -19,6 +19,7 @@ using Bookbox.Service.Interfaces;
 using Bookbox.Service.Implementations;
 using Bookbox.Middlewares;
 using Serilog;
+using Bookbox.Service;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -89,6 +90,9 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<ITokenRepository , TokenRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+
+/*service.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));*/
 
 // Registering Automapper
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
